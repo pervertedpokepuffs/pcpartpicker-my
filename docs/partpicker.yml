@@ -1,0 +1,791 @@
+---
+openapi: 3.0.3
+info:
+  title: Part Picker API for Malaysia
+  description: Part picker for computers aimed specifically at the Malaysian market.
+  version: 0.0.1
+servers:
+- url: http://localhost:{port}/{basePath}
+  description: Local environment.
+  variables:
+    port:
+      enum:
+      - '80'
+      - '4010'
+      default: '80'
+    basePath:
+      default: ''
+paths:
+  "/lookup":
+    parameters:
+    - in: query
+      name: part_filter
+      schema:
+        type: object
+        properties:
+          cpu_id:
+            nullable: true
+            type: integer
+            example: 1
+          gpu_id:
+            type: integer
+            example: 1
+          case_id:
+            nullable: true
+            type: integer
+            example: 1
+          cooler_id:
+            nullable: true
+            type: integer
+            example: 1
+          hdd_id:
+            nullable: true
+            type: integer
+            example: 1
+          motherboard_id:
+            nullable: true
+            type: integer
+            example: 1
+          psu_id:
+            nullable: true
+            type: integer
+            example: 1
+          ram_id:
+            nullable: true
+            type: integer
+            example: 1
+          ssd_id:
+            nullable: true
+            type: integer
+            example: 1
+      explode: true
+      style: form
+    get:
+      tags:
+      - lookup
+      description: Returns a list of suggestions based on the selected component and
+        categories.
+      responses:
+        '200':
+          description: Object of lists of recommended builds/prebuilt/laptops.
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  customs:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Custom"
+                  prebuilts:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Oem"
+                  laptops:
+                    type: array
+                    items:
+                      "$ref": "#/components/schemas/Oem"
+  "/part/cpu":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Cpu"
+    get:
+      tags:
+      - filter
+      description: Returns the CPU based on filters.
+      responses:
+        '200':
+          description: List of CPUs that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Cpu"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/gpu":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Gpu"
+    get:
+      tags:
+      - filter
+      description: Returns the GPU based on filters.
+      responses:
+        '200':
+          description: List of GPUs that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Gpu"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/cooler":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Cooler"
+    get:
+      tags:
+      - filter
+      description: Returns the cooler based on filters.
+      responses:
+        '200':
+          description: List of coolers that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Cooler"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/motherboard":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Motherboard"
+    get:
+      tags:
+      - filter
+      description: Returns the motherboard based on filters.
+      responses:
+        '200':
+          description: List of motherboards that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Motherboard"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/ram":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Ram"
+    get:
+      tags:
+      - filter
+      description: Returns the ram based on filters.
+      responses:
+        '200':
+          description: List of rams that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Ram"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/hdd":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Hdd"
+    get:
+      tags:
+      - filter
+      description: Returns the hdd based on filters.
+      responses:
+        '200':
+          description: List of hdds that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Hdd"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/ssd":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Ssd"
+    get:
+      tags:
+      - filter
+      description: Returns the ssd based on filters.
+      responses:
+        '200':
+          description: List of ssds that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Ssd"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/psu":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Psu"
+    get:
+      tags:
+      - filter
+      description: Returns the psu based on filters.
+      responses:
+        '200':
+          description: List of psus that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Psu"
+        default:
+          "$ref": "#/components/responses/Error"
+  "/part/case":
+    parameters:
+    - in: query
+      name: filter
+      content:
+        application/json:
+          schema:
+            "$ref": "#/components/schemas/Case"
+    get:
+      tags:
+      - filter
+      description: Returns the case based on filters.
+      responses:
+        '200':
+          description: List of cases that fits the filter.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  "$ref": "#/components/schemas/Case"
+        default:
+          "$ref": "#/components/responses/Error"
+components:
+  responses:
+    Error:
+      description: Error Payload
+      content:
+        text/plain:
+          schema:
+            "$ref": "#/components/schemas/ErrorModel"
+  schemas:
+    ErrorModel:
+      type: string
+      x-faker: lorem.sentence
+      example: Some error message.
+    Custom:
+      allOf:
+      - "$ref": "#/components/schemas/Case"
+      - type: object
+        properties:
+          cooler:
+            nullable: true
+            "$ref": "#/components/schemas/Cooler"
+          cpu:
+            nullable: true
+            "$ref": "#/components/schemas/Cpu"
+          gpu:
+            nullable: true
+            "$ref": "#/components/schemas/Gpu"
+          hdd:
+            nullable: true
+            "$ref": "#/components/schemas/Hdd"
+          motherboard:
+            nullable: true
+            "$ref": "#/components/schemas/Motherboard"
+          psu:
+            nullable: true
+            "$ref": "#/components/schemas/Psu"
+          ram:
+            nullable: true
+            "$ref": "#/components/schemas/Ram"
+          ssd:
+            nullable: true
+            "$ref": "#/components/schemas/Ssd"
+    Oem:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          cpu:
+            nullable: true
+            "$ref": "#/components/schemas/Cpu"
+          gpu:
+            nullable: true
+            "$ref": "#/components/schemas/Gpu"
+          ram:
+            nullable: true
+            "$ref": "#/components/schemas/Ram"
+          hdd:
+            nullable: true
+            "$ref": "#/components/schemas/Hdd"
+          ssd:
+            nullable: true
+            "$ref": "#/components/schemas/Ssd"
+    Case:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          type:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: Mid-Tower
+          size:
+            nullable: true
+            type: object
+            properties:
+              l:
+                nullable: true
+                type: integer
+                x-faker: random.number
+                example: 450
+              w:
+                nullable: true
+                type: integer
+                x-faker: random.number
+                example: 220
+              h:
+                nullable: true
+                type: integer
+                x-faker: random.number
+                example: 445
+          maxMotherboardSize:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: ATX
+          includedFans:
+            nullable: true
+            type: array
+            items:
+              type: object
+              properties:
+                size:
+                  type: integer
+                  x-faker: random.number
+                  example: 200
+                count:
+                  type: integer
+                  x-faker: random.number
+                  example: 2
+          fanSlots:
+            nullable: true
+            type: array
+            items:
+              type: object
+              properties:
+                size:
+                  type: integer
+                  x-faker: random.number
+                  example: 200
+                count:
+                  type: integer
+                  x-faker: random.number
+                  example: 2
+                position:
+                  type: string
+                  x-faker: lorem.word
+                  example: top
+          maxRadiatorSize:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 360
+          dustFilters:
+            nullable: true
+            type: array
+            items:
+              type: string
+              x-faker: lorem.word
+              example: top
+          colors:
+            nullable: true
+            type: array
+            items:
+              type: object
+              properties:
+                colorName:
+                  type: string
+                  x-faker: vehicle.color
+                  example: black
+                colorHex:
+                  type: string
+                  example: FFFFFF
+    Psu:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          power:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 650
+          efficiency:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: 80+ Bronze
+          modular:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            enum:
+            - full
+            - semi
+            - non
+          oem:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: Great Wall
+          warranty:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 36
+    Ssd:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          interface:
+            nullable: true
+            type: array
+            items:
+              type: string
+              x-faker: lorem.word
+              example: M.2
+          capacity:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 500
+          controller:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: SanDisk 4-channel
+          nand:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: BiCS4 96-layer TLC
+    Hdd:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          capacity:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 2000000
+          speed:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 6300
+    Ram:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          speed:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 3000
+          capacity:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 16
+          type:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: DDR4
+    Motherboard:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          chipset:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: Intel Z590
+          size:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: ATX
+          ram:
+            nullable: true
+            type: object
+            properties:
+              slotCount:
+                type: integer
+                x-faker: random.number
+                example: 4
+              type:
+                type: string
+                x-faker: lorem.word
+                example: DDR4
+          pcie:
+            nullable: true
+            type: object
+            properties:
+              version:
+                type: number
+                x-faker: random.float
+                example: 4
+              slots:
+                type: array
+                items:
+                  type: integer
+                  x-faker: random.number
+                  example: 8
+              crossfireX:
+                type: boolean
+                x-faker: random.boolean
+                example: false
+              sli:
+                type: boolean
+                x-faker: random.boolean
+                example: false
+          ports:
+            nullable: true
+            type: array
+            items:
+              type: object
+              properties:
+                name:
+                  type: string
+                  x-faker: lorem.word
+                  example: USB 3.2
+                count:
+                  type: integer
+                  x-faker: random.number
+                  example: 1
+    Cooler:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          fans:
+            nullable: true
+            type: object
+            properties:
+              size:
+                type: integer
+                x-faker: random.number
+                example: 120
+              count:
+                type: integer
+                x-faker: random.number
+                example: 2
+          weight:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 920
+          tdp:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 200
+    Gpu:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          memorySize:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 16000
+          baseClock:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 700
+          boostClock:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 1000
+          pcieVersion:
+            nullable: true
+            type: number
+            x-faker: random.number
+            example: 4
+          length:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 270
+          tdp:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 65
+    Cpu:
+      allOf:
+      - "$ref": "#/components/schemas/BaseComponent"
+      - type: object
+        properties:
+          baseClock:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 500
+          boostClock:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 500
+          coreCount:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 4
+          threadCount:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 8
+          intergratedGraphics:
+            nullable: true
+            type: boolean
+            x-faker: random.boolean
+            example: true
+          cache:
+            nullable: true
+            type: array
+            items:
+              type: object
+              properties:
+                type:
+                  type: string
+                  x-faker: random.number
+                  example: L3
+                memorySize:
+                  type: integer
+                  x-faker: random.number
+                  example: 700
+          memory:
+            nullable: true
+            type: object
+            properties:
+              maxSpeed:
+                type: integer
+                x-faker: random.number
+                example: 24000
+              type:
+                type: string
+                x-faker: lorem.word
+                example: DDR4
+              channels:
+                type: integer
+                x-faker: random.number
+                example: 2
+          socket:
+            nullable: true
+            type: string
+            x-faker: lorem.word
+            example: AM4
+          tdp:
+            nullable: true
+            type: integer
+            x-faker: random.number
+            example: 65
+    BaseComponent:
+      type: object
+      properties:
+        id:
+          nullable: true
+          type: integer
+          x-faker: random.number
+          example: 1
+        name:
+          nullable: true
+          type: string
+          x-faker: company.bsBuzz
+          example: AMD RX570
+        description:
+          nullable: true
+          type: string
+          x-faker: lorem.sentences
+          example: This is a pretty damn good GPU. Maybe. I dunno.
+        componentType:
+          type: string
+          enum:
+          - gpu
+          - cpu
+          - cooler
+          - motherboard
+          - ram
+          - hdd
+          - ssd
+          - psu
+          - case
+          - prebuilt
+          - laptop
+        prices:
+          nullable: true
+          type: array
+          items:
+            type: object
+            properties:
+              price:
+                type: integer
+                x-faker: random.number
+                example: 500
+              source:
+                type: string
+                x-faker: company.bs
+                example: Lazada
+              url:
+                type: string
+                x-faker: internet.url
+                example: http://www.google.com
+        photoUrl:
+          nullable: true
+          type: string
+          x-faker: image.imageUrl
