@@ -2,7 +2,7 @@
 openapi: 3.0.3
 info:
   title: Part Picker API for Malaysia
-  description: Part picker for computers aimed specifically at the Malaysian market.
+  description: Part picker for computers aimed specifically at the Malaysian market. Frontend using Angular and PrimeNG.
   version: 0.0.1
 servers:
 - url: http://localhost:{port}/{basePath}
