@@ -1,0 +1,14 @@
+@import "../../assets/variables.scss";
+
+.navbar {
+    background-color: $navbg-color;
+    height: 3rem;
+    display: flex;
+    justify-content: flex-end;
+}
+
+.burger {
+    height: 100%;
+    width: 3rem;
+    background-color: none;
+}
