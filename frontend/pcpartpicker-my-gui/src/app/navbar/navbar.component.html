@@ -1,4 +1,8 @@
 <div class="navbar">
-    <button class="burger p-button-text" icon="pi pi-bars" pButton></button>
+    <div class="site-title">
+        <h1>PCPartPicker.my</h1>
+    </div>
+    <p-menu #menu [popup]="true" [model]="items"></p-menu>
+    <button type="button" class="burger p-button-text" icon="pi pi-bars" pButton (click)="menu.toggle($event)"></button>
 </div>
 <ng-content></ng-content>
